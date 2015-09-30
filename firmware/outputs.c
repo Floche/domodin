@@ -37,7 +37,7 @@ void Init_outputs()
 
     Registers_table[6] = 0;
     Registers_table[7] = 0;
-    Registers_table[13] = 2;
+    Registers_table[13] = 0x20;
     Update_outputs();
 }
 

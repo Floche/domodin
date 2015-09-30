@@ -1,0 +1,22 @@
+ÀÄbootloader
+   ÃÄMAIN  0/94  Ram=0
+   ³  ÃÄ??0??
+   ³  ÀÄbootloader  0/358  Ram=68
+   ³     ÃÄ@@GETCH_2_  0/74  Ram=1
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄcheck_checksum  0/46  Ram=5
+   ³     ³  ÀÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄ@@PUTCHAR_2_  0/64  Ram=1
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÃÄ@@FLASHWR  0/30  Ram=0
+   ³     ÃÄ@@WRITE_PROGRAM_MEMORY  0/86  Ram=7
+   ³     ³  ÃÄ@@FLASHWR  0/30  Ram=0
+   ³     ³  ÀÄ@@FLASHWR  0/30  Ram=0
+   ³     ÃÄget_hexbyte  0/72  Ram=6
+   ³     ÀÄ@@PUTCHAR_2_  0/64  Ram=1
+   ÃÄapplication  0/4  Ram=0
+   ÃÄisr_low  0/6  Ram=0
+   ÀÄisr_high  0/6  Ram=0

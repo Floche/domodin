@@ -4,11 +4,11 @@
 #include "main.h"
 
 #build (reset=0x400, interrupt=0x408)
+#org 0, 0x3FF {}
 
 #define BOOTLOADER_PIN      PIN_B4
 #define BOOTLOADER_PIN_BIS  PIN_B5
 
-#byte PIC_SSPSTAT=0xFC7
 extern bool Delestage_enable;
 
 bool flagValidFrame = false;
@@ -19,19 +19,18 @@ char FrameIndexStored = 0;
 
 BYTE I2C_table_index, Registers_table[16] = {0};
 
-
 void main()
 {
-	flagValidFrame = 0;
+    flagValidFrame = 0;
     Init_hard();
     while(1)
     {
-    	// restart_wd();
-	    if(flagValidFrame && Delestage_enable)
-	    {
-	    	Detection_delestage();
-	    	flagValidFrame = false;
-	    }
+        // restart_wd();
+        if(flagValidFrame && Delestage_enable)
+        {
+            Detection_delestage();
+            flagValidFrame = false;
+        }
         Update_outputs();
             
         delay_ms(200);
@@ -42,13 +41,13 @@ void Init_hard()
 {
     output_high(LED1);
     output_low(LED2);
-	// setup_wd(WDT_ON);
+    // setup_wd(WDT_ON);
     // enable_interrupts(PERIPH);
     enable_interrupts(INT_RDA);
     enable_interrupts(INT_SSP);
     // enable_interrupts(INT_TIMER0);
     // enable_interrupts(INT_AD);
-	enable_interrupts(GLOBAL);
+    enable_interrupts(GLOBAL);
     
     input(ZCD);
     PORT_D_PULLUPS(true);
@@ -107,5 +106,3 @@ void ssp_interupt()
             i2c_write(0xFF);
     }
 }
-
-#org 0, 0x3FF {}

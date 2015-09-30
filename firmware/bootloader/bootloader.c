@@ -26,7 +26,6 @@
 
 #define HEX_LINE_LEN_MAX    50  /* maximum length a line in the HEX file */
 
-
 #define ACK                 0x06    /* positive acknowledge (ACK) */
 #define NAK                 0x15    /* negative acknowledge (NAK) */
 
@@ -35,13 +34,15 @@
 /* ------------------------------------------------------------------------- */
 #define BOOTLOADER_START        0x2A
 #define BOOTLOADER_END          0x3FF
-#define RESET_VECTOR            0x400
-#define INTERRUPT_VECTOR_LOW    0x408
-#define INTERRUPT_VECTOR_HIGH   0x418
+#define RESET_VECTOR            BOOTLOADER_END+1
+#define INTERRUPT_VECTOR_LOW    RESET_VECTOR+0x08
+#define INTERRUPT_VECTOR_HIGH   INTERRUPT_VECTOR_LOW+0x10
 #define APPLICATION_START       RESET_VECTOR
 
-
 #ORG BOOTLOADER_START, BOOTLOADER_END auto=0 default
+
+/* RS232 configuration */
+#use rs232(baud=115200,parity=N,xmit=PIN_C6,rcv=PIN_D2,bits=8)
 
 /* ========================================================================= */
 /* get_hexbyte                                                               */

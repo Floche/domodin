@@ -1,0 +1,178 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     @INTERRUPT_AREA
+017     @INTERRUPT_AREA
+018     @INTERRUPT_AREA
+019     @INTERRUPT_AREA
+01A     @INTERRUPT_AREA
+01B.0   flagValidFrame
+01B.1   Delestage_enable
+01B.2   Update_Relais.bLastRelai_1
+01B.3   Update_Relais.bLastRelai_2
+01C-05B FrameTeleinfo
+05C-09B FrameTeleinfoStored
+09C     FrameIndex
+09D     FrameIndexStored
+09E     I2C_table_index
+09F-0AE Registers_table
+0AF     @I2C_STATE
+0B0-0B1 lADC_1
+0B2-0B3 lADC_2
+0B4-0D1 Rads
+0D2     i
+0D3-0D4 checksum
+0D5.0   Update_outputs.bRelai_1
+0D5.1   Update_outputs.bRelai_2
+0D5     Detection_delestage.@SCRATCH1
+0D6     Update_outputs.i
+0D7     Update_outputs.@SCRATCH1
+0D8     Radiator.Order
+0D8     Update_outputs.@SCRATCH2
+0D9     Radiator.id
+0D9     Update_Relais.bRelai_1
+0DA     Update_Relais.bRelai_2
+0DA     Radiator.@SCRATCH1
+0DB     @delay_ms1.P1
+0DB     Radiator.@SCRATCH2
+0DB     Update_Relais.@SCRATCH1
+0DC     @WRITEBITA.P1
+0DC     Radiator.@SCRATCH3
+0DD     @WRITEBITA.P1
+0DD     Radiator.@SCRATCH4
+0DE-0DF @WRITEBITA.P1
+0E2     ssp_interupt.incoming
+0E2     serial_isr.@SCRATCH1
+0E3     ssp_interupt.state
+0E3     @PUTCHAR_1_.P1
+0E3     serial_isr.@SCRATCH2
+0E4     serial_isr.@SCRATCH3
+0E4     ssp_interupt.@SCRATCH1
+0E5     @I2C_WRITE_1.P1
+0E5     serial_isr.@SCRATCH4
+0E5     ssp_interupt.@SCRATCH2
+0E6     @GETCH_1_.@SCRATCH1
+F01     CCP_10_LOW
+F01     CCP_10
+F02     CCP_10_HIGH
+F04     CCP_9_LOW
+F04     CCP_9
+F05     CCP_9_HIGH
+F07     CCP_8_LOW
+F07     CCP_8
+F08     CCP_8_HIGH
+F0A     CCP_7
+F0A     CCP_7_LOW
+F0B     CCP_7_HIGH
+F0D     CCP_6_LOW
+F0D     CCP_6
+F0E     CCP_6_HIGH
+F10     CCP_5
+F10     CCP_5_LOW
+F11     CCP_5_HIGH
+F13     CCP_4
+F13     CCP_4_LOW
+F14     CCP_4_HIGH
+F16     CCP_3
+F16     CCP_3_LOW
+F17     CCP_3_HIGH
+F70.0   C1OUT
+F70.1   C2OUT
+F70.2   C3OUT
+FB5     CCP_2
+FB5     CCP_2_LOW
+FB6     CCP_2_HIGH
+FBB     CCP_1_LOW
+FBB     CCP_1
+FBC     CCP_1_HIGH
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @READ_PACKED_MEMORY.P1
+FE9-FEA @READ_PROGRAM_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P3
+FE9-FEA @WRITE_PROGRAM_MEMORY.P4
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
+FF6-FF8 @READ_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+00096A  @delay_ms1
+000516  @PUTCHAR_1_
+0004CA  @GETCH_1_
+0005D4  @I2C_WRITE_1
+000BE6  main
+000B3A  Init_hard
+000558  serial_isr
+0005EA  ssp_interupt
+000AC0  Init_outputs
+0006A6  Radiator
+000668  @WRITEBITA
+000B58  Detection_delestage
+0009FE  Update_outputs
+000992  Update_Relais
+000BE6  @cinit
+
+
+User Memory space: 
+
+User Memory space: 
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    C:\Users\Administrateur\Documents\GitHub\domodin\firmware\
+
+Project Files:
+    domodin.c                                               [30-déc.-99 00:00  CRC=00000000]
+    main.c (link)                                           [30-sept.-15 20:50  CRC=FAE9E184]
+    ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18f47j53.h (link) [13-avr.-11 15:02  CRC=1DEA3C7C]
+    hardware.h (link)                                       [30-sept.-15 18:42  CRC=632432CD]
+    outputs.h (link)                                        [30-sept.-15 18:42  CRC=8645F27C]
+    main.h (link)                                           [30-sept.-15 18:42  CRC=80C942BC]
+    outputs.c (link)                                        [30-sept.-15 20:27  CRC=123F5F3A]
+
+Source signature=A7864479
+
+Units:
+    C:\Users\Administrateur\Documents\GitHub\domodin\firmware\main.o
+    C:\Users\Administrateur\Documents\GitHub\domodin\firmware\outputs.o
+
+Compiler Settings:
+    Processor:      PIC18F47J53
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      domodin.err
+    Ext Symbols: domodin.esym
+    INHX32:      domodin.hex
+    Symbols:     domodin.sym
+    List:        domodin.lst
+    Debug/COFF:  domodin.cof
+    Project:     domodin.PJT
+    Call Tree:   domodin.tre
+    Statistics:  domodin.STA

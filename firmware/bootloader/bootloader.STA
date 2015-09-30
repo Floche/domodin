@@ -1,0 +1,59 @@
+
+ROM used: 844 (1%)
+          1028 (1%) including unused fragments
+
+          1 Average locations per line
+          14 Average locations per statement
+
+RAM used: 4 (0%) at main() level
+          79 (2%) worst case
+
+Stack used: 4 worst case (out of 31 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  261    61 100  bootloader.c
+   12     0   0  bootloader.h
+  704     0   0  ..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\18f47j53.h
+   59     0   0  types.h
+----- -----
+ 1036    61 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     64   4   1             @@PUTCHAR_2_
+0     74   4   1             @@GETCH_2_
+0     72   4   6   406  7.3  get_hexbyte
+0     46   3   5   236  5.5  check_checksum
+0    358  21  68  1880 11.4  bootloader
+0     30   2   0             @@FLASHWR
+0     86   5   7             @@WRITE_PROGRAM_MEMORY
+0      4   0   0    20  1.3  application
+0     94   6   0   138  3.0  MAIN
+0      6   0   0    24  1.2  isr_low
+0      6   0   0    32  1.3  isr_high
+
+Program metrics:
+    Functions               7
+    Statements              61
+    Comments                239
+    Volume (V)              3546
+    Difficilty (D)          31.6
+    Effort to implement (E) 111902
+    Time to implement (T)   1 hours, 44 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   12
+    Maintainability (MI)    121
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00006     4  4  
+00008-00016     6  10  
+00018-00028     6  12  
+0002A-003FE   824  158  
+00400-00500     4  254  
+00502-0FFFE     0  64254  
+10000-1FFF6     0  65528  
+
+
+

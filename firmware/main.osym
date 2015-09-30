@@ -1,0 +1,73 @@
+_RETURN_
+CCP_1
+CCP_1_LOW
+CCP_1_HIGH
+CCP_2
+CCP_2_LOW
+CCP_2_HIGH
+CCP_3
+CCP_3_LOW
+CCP_3_HIGH
+CCP_4
+CCP_4_LOW
+CCP_4_HIGH
+CCP_5
+CCP_5_LOW
+CCP_5_HIGH
+CCP_6
+CCP_6_LOW
+CCP_6_HIGH
+CCP_7
+CCP_7_LOW
+CCP_7_HIGH
+CCP_8
+CCP_8_LOW
+CCP_8_HIGH
+CCP_9
+CCP_9_LOW
+CCP_9_HIGH
+CCP_10
+CCP_10_LOW
+CCP_10_HIGH
+C1OUT
+C2OUT
+C3OUT
+Delestage_enable
+flagValidFrame
+FrameTeleinfo
+FrameTeleinfoStored
+FrameIndex
+FrameIndexStored
+I2C_table_index
+Registers_table
+@I2C_STATE
+
+Project Directory:
+    C:\Users\Administrateur\Documents\GitHub\domodin\firmware\
+
+Project Files:
+    main.c                                                  [30-sept.-15 20:50  CRC=FAE9E184]
+    ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18f47j53.h [13-avr.-11 15:02  CRC=1DEA3C7C]
+    hardware.h                                              [30-sept.-15 18:42  CRC=632432CD]
+    outputs.h                                               [30-sept.-15 18:42  CRC=8645F27C]
+    main.h                                                  [30-sept.-15 18:42  CRC=80C942BC]
+
+Source signature=03D0C8C1
+
+Units:
+    C:\Users\Administrateur\Documents\GitHub\domodin\firmware\main (main)
+
+Compiler Settings:
+    Processor:      PIC18F47J53
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Output file:    Relocatable
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    Object:      main.o
+    Symbols:     main.osym

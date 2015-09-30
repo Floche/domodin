@@ -5,7 +5,7 @@ Version=1.0
 Location=bootloader.ESYM
 Folder=Intermediary
 [File001]
-Location=C:\Users\Administrateur\Dropbox\Domodin\bootloader.o
+Location=C:\Users\Administrateur\Documents\GitHub\domodin\firmware\bootloader\bootloader.o
 Folder=Intermediary
 [File002]
 Location=bootloader.HEX
