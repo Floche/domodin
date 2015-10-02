@@ -62,6 +62,8 @@ int main (void)
 		line++;
 	}
 
+	pinModeAlt (BOOTLOADER_PIN1, 0b100);
+	pinModeAlt (BOOTLOADER_PIN2, 0b100);
 	serialClose(fSerial);
 	fclose(filehex);
 	printf("New firmware loaded !\r\n");

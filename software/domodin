@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ "$1" == "led" ]; then
+i2cset -y 1 0x50 13 $2
+fi
