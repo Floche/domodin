@@ -1,4 +1,61 @@
 #!/bin/bash
-if [ "$1" == "led" ]; then
-i2cset -y 1 0x50 13 $2
-fi
+case "$1" in
+	led)
+		i2cset -y 1 0x50 13 $2
+		;;
+	radiator)
+		if [ "$2" > 5 ]; then
+			echo Parameter 2 is wrong, Should be between 0 and 5
+		else
+			if [ "$3" == arret ]; then
+				i2cset -y 1 0x50 $2 0
+			elif [ "$3" == horsgel ]; then
+				i2cset -y 1 0x50 $2 1
+			elif [ "$3" == eco ]; then
+				i2cset -y 1 0x50 $2 2
+			elif [ "$3" == confort ]; then
+				i2cset -y 1 0x50 $2 3
+			else
+				echo Parameter 3 is wrong, Should be arret/horsgel/eco/confort
+			fi
+		fi
+		;;
+	relay)
+		if [ $2 == 0 ]; then
+			if [ "$3" == on ]; then
+				i2cset -y 1 0x50 6 1
+			else
+				i2cset -y 1 0x50 6 0
+			fi
+		elif [ $2 == 1 ]; then
+			if [ "$3" == on ]; then
+				i2cset -y 1 0x50 7 1
+			else
+				i2cset -y 1 0x50 7 0
+			fi
+		else
+			echo Parameter 2 is wrong, Should be [0 / 1]
+		fi
+		;;
+	adc)
+		if [ $2 == "0" ]; then
+			i2cget -y 1 0x50 9 -w
+		elif [ $2 == "1" ]; then
+			i2cget -y 1 0x50 11 -w
+		else
+			echo Parameter 2 is wrong, Should be [0 / 1]
+		fi
+		;;
+	delestage)
+		if [ $2 == "1" ]; then
+			i2cset -y 1 0x50 8 1
+		else
+			i2cset -y 1 0x50 8 0
+		fi
+		;;
+	*)
+		echo Parameters are : led / radiator / relay / adc / delestage
+		;;
+esac
+
+:
