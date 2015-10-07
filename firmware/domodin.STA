@@ -1,38 +1,37 @@
 
-ROM used: 2420 (2%)
-          2424 (2%) including unused fragments
+ROM used: 2356 (2%)
+          2360 (2%) including unused fragments
 
           2 Average locations per line
           16 Average locations per statement
 
 RAM used: 210 (6%) at main() level
-          231 (6%) worst case
+          230 (6%) worst case
 
 Stack used: 7 worst case (out of 31 total available)
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
     0     0   0  domodin.c
-  109    45  30  main.c
+  102    46  32  main.c
   704     0   0  ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18f47j53.h
    37     0   0  hardware.h
    26     0   0  outputs.h
-   22     0   0  main.h
-  201   104  70  outputs.c
+   25     0   0  main.h
+  193    98  68  outputs.c
 ----- -----
- 1099   149 Total
+ 1087   144 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0     40   1   1             @delay_ms1
-0     66   1   1             @PUTCHAR_1_
-0     76   2   1             @GETCH_1_
+0     36   1   2             @PUTCHAR_BIU_1
 0     22   0   1             @I2C_WRITE_1
-0    402   8   0   145  3.0  main
-0     30   1   0   143  1.3  Init_hard
-0    124   3   4   242  4.6  serial_isr
+0    430   9   0   145  3.0  main
+0     32   1   0   165  1.3  Init_hard
+0    128   3   2   327  5.6  serial_isr
 0    126   3   4   439  6.6  ssp_interupt
-0    122   3   0   991  2.9  Init_outputs
+0    130   3   2   748  4.4  Init_outputs
 0    708  15   6   702  6.9  Radiator
 0     62   1   6             @WRITEBITA
 0    142   3   1   836  7.3  Detection_delestage
@@ -41,14 +40,14 @@ Page ROM  %  RAM   Vol Diff  Functions:
 
 Program metrics:
     Functions               9
-    Statements              149
+    Statements              144
     Comments                51
-    Volume (V)              7928
-    Difficilty (D)          44.3
-    Effort to implement (E) 350887
-    Time to implement (T)   5 hours, 25 minutes
+    Volume (V)              7772
+    Difficilty (D)          46.7
+    Effort to implement (E) 362955
+    Time to implement (T)   5 hours, 36 minutes
     Est Delivered Bugs (B)  2
-    Cyclomatic Complexity   26
+    Cyclomatic Complexity   27
     Maintainability (MI)    64
 
  Segment     Used  Free
@@ -56,7 +55,7 @@ Program metrics:
 00000-003FE     0  1024  
 00400-00406     4  4  
 00408-004C8   194  0  
-004CA-0FFFE  2222  62088  
+004CA-0FFFE  2158  62152  
 10000-1FFF6     0  65528  
 
 

@@ -46,13 +46,13 @@ Project Directory:
     C:\Users\Administrateur\Documents\GitHub\domodin\firmware\
 
 Project Files:
-    main.c                                                  [30-sept.-15 20:50  CRC=FAE9E184]
+    main.c                                                  [07-oct.-15 20:01  CRC=92B6A352]
     ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18f47j53.h [13-avr.-11 15:02  CRC=1DEA3C7C]
     hardware.h                                              [30-sept.-15 18:42  CRC=632432CD]
     outputs.h                                               [30-sept.-15 18:42  CRC=8645F27C]
-    main.h                                                  [30-sept.-15 18:42  CRC=80C942BC]
+    main.h                                                  [06-oct.-15 19:00  CRC=18A9A202]
 
-Source signature=03D0C8C1
+Source signature=CB5E491B
 
 Units:
     C:\Users\Administrateur\Documents\GitHub\domodin\firmware\main (main)
