@@ -6,12 +6,10 @@
 extern char FrameTeleinfoStored[SIZE_TELEINFO];
 extern char FrameIndexStored;
 extern BYTE Registers_table[16];
+
 bool Delestage_enable = true;
-
 unsigned long lADC_1 = 0, lADC_2 = 0;
-
 t_Radiator Rads[6];
-
 
 void Init_outputs()
 {
@@ -28,16 +26,10 @@ void Init_outputs()
     Rads[5].Positive = FP6A;
     Rads[5].Negative = FP6B;
 
-    Registers_table[0] = 0;
-    Registers_table[1] = 0;
-    Registers_table[2] = 0;
-    Registers_table[3] = 0;
-    Registers_table[4] = 0;
-    Registers_table[5] = 0;
+    int i;
+    for(i = 0; i < 16; i++)
+        Registers_table[i] = 0;
 
-    Registers_table[6] = 0;
-    Registers_table[7] = 0;
-    Registers_table[13] = 0x20;
     Update_outputs();
 }
 
@@ -77,14 +69,14 @@ void Detection_delestage()
     {
         int8 i;
         int16 checksum = 0;
-        // -1 is CR, -2 is CRC
-        for(i=1; i < (FrameIndexStored-2); i++)
+        // last is CR, -1 is CRC
+        for(i=1; i < (FrameIndexStored-1); i++)
         {
-            checksum += FrameTeleinfoStored[FrameIndexStored];
+            checksum += FrameTeleinfoStored[i];
         }
         checksum &= 0x3F;
         checksum += 0x20;
-        if(FrameTeleinfoStored[FrameIndexStored-2] == checksum) // valid frame
+        if(FrameTeleinfoStored[FrameIndexStored-1] == checksum) // valid frame
         {
             if(FrameTeleinfoStored[1] == 'A' &&
                FrameTeleinfoStored[2] == 'D' &&
@@ -160,7 +152,7 @@ void Update_outputs()
 // Update the relais state : because they are bistable, we need to check if the desired state changed before changing the output
 void Update_Relais(bool bRelai_1, bool bRelai_2)
 {
-    static bool bLastRelai_1 = true, bLastRelai_2 = true; // true enable to disable the relais at startup :)
+    static bool bLastRelai_1 = true, bLastRelai_2 = true; // true allow to disable the relais at startup :)
 
     if(bLastRelai_1 != bRelai_1)
     {

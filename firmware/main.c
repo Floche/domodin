@@ -3,12 +3,6 @@
 #include "outputs.h"
 #include "main.h"
 
-#build (reset=0x400, interrupt=0x408)
-#org 0, 0x3FF {}
-
-#define BOOTLOADER_PIN      PIN_B4
-#define BOOTLOADER_PIN_BIS  PIN_B5
-
 extern bool Delestage_enable;
 
 bool flagValidFrame = false;
@@ -32,8 +26,7 @@ void main()
             flagValidFrame = false;
         }
         Update_outputs();
-            
-        delay_ms(200);
+        delay_ms(10);
     }
 }
 
@@ -42,11 +35,11 @@ void Init_hard()
     output_high(LED1);
     output_low(LED2);
     // setup_wd(WDT_ON);
-    // enable_interrupts(PERIPH);
     enable_interrupts(INT_RDA);
     enable_interrupts(INT_SSP);
     // enable_interrupts(INT_TIMER0);
     // enable_interrupts(INT_AD);
+    enable_interrupts(PERIPH);
     enable_interrupts(GLOBAL);
     
     input(ZCD);
@@ -57,18 +50,19 @@ void Init_hard()
 
 #INT_RDA
 void serial_isr()
-{ 
+{
     FrameTeleinfo[FrameIndex] = getc(); 
     putc(FrameTeleinfo[FrameIndex]);
-    FrameIndex++;
 
-    if(FrameTeleinfo[FrameIndex-1] == END_OF_LABEL)
+    if(FrameTeleinfo[FrameIndex] == END_OF_LABEL)
     {
-        memcpy(FrameTeleinfoStored, FrameTeleinfo, FrameIndex);
+        memcpy(FrameTeleinfoStored, FrameTeleinfo, FrameIndex+1);
         FrameIndexStored = FrameIndex;
         FrameIndex = 0;
         flagValidFrame = true;
     }
+
+    FrameIndex = (FrameIndex == (SIZE_TELEINFO-1)) ? 0 : FrameIndex+1;
 }
 
 #INT_SSP
@@ -77,7 +71,6 @@ void ssp_interupt()
     BYTE incoming, state;
 
     state = i2c_isr_state();
-    //printf("state = %X, statebis = %X\n", state, PIC_SSPSTAT);
 
     if(state < 0x80)                     //Master is sending data
     {
