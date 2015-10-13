@@ -10,6 +10,9 @@
 #define SIZE_TELEINFO   64
 #define END_OF_LABEL    0x0D
 
+#define TIMER0_1SEC		65535-46875
+#define TIMER1_100US	65535-4800
+
 #use delay(clock=48M)
 /* RS232 configuration */
 #use rs232(baud=1200,bits=7,xmit=PIN_C6,rcv=PIN_C7, PARITY=E, STOP=1)

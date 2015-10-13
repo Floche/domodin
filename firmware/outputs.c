@@ -7,8 +7,8 @@ extern char FrameTeleinfoStored[SIZE_TELEINFO];
 extern char FrameIndexStored;
 extern BYTE Registers_table[16];
 
+unsigned long l_ADC1 = 0, l_ADC2 = 0;
 bool Delestage_enable = true;
-unsigned long lADC_1 = 0, lADC_2 = 0;
 t_Radiator Rads[6];
 
 void Init_outputs()
@@ -125,10 +125,10 @@ void Update_outputs()
     Delestage_enable = Registers_table[8] & 0x80 ? true : false;
     // ordre de delestage = Registers_table[8] & 0x03;
 
-    Registers_table[9] = lADC_1 >> 8;
-    Registers_table[10] = lADC_1 & 0xFF;
-    Registers_table[11] = lADC_2 >> 8;
-    Registers_table[12] = lADC_2 & 0xFF;
+    Registers_table[9] = l_ADC1 & 0xFF;
+    Registers_table[10] = l_ADC1 >> 8;
+    Registers_table[11] = l_ADC2 & 0xFF;
+    Registers_table[12] = l_ADC2 >> 8;
 
     if((Registers_table[13]&0x0F) == 0)
         output_low(LED1);
