@@ -10,7 +10,6 @@ enum t_Order{
 };
 
 typedef struct {
-    t_Order CurrentOrder;
     unsigned long Positive;
     unsigned long Negative;
 }t_Radiator;

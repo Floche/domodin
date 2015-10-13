@@ -35,30 +35,26 @@ void Init_outputs()
 
 void Radiator(t_Order Order, int8 id)
 {
-    if(Rads[id].CurrentOrder != Order)
+    switch(Order)
     {
-        switch(Order)
-        {
-            case ARRET:
-                output_high(Rads[id].Positive);
-                output_low(Rads[id].Negative);
+        case ARRET:
+            output_high(Rads[id].Positive);
+            output_low(Rads[id].Negative);
+        break;
+        case HORS_GEL:
+            output_low(Rads[id].Positive);
+            output_high(Rads[id].Negative); 
+        break;
+        case ECO:
+            output_high(Rads[id].Positive);
+            output_high(Rads[id].Negative);            
+        break;
+        case CONFORT:
+            output_low(Rads[id].Positive);
+            output_low(Rads[id].Negative);            
+        break;
+        default:
             break;
-            case HORS_GEL:
-                output_low(Rads[id].Positive);
-                output_high(Rads[id].Negative); 
-            break;
-            case ECO:
-                output_high(Rads[id].Positive);
-                output_high(Rads[id].Negative);            
-            break;
-            case CONFORT:
-                output_low(Rads[id].Positive);
-                output_low(Rads[id].Negative);            
-            break;
-            default:
-                break;
-        }
-    Rads[id].CurrentOrder = Order;        
     }
 }
 
