@@ -1,19 +1,20 @@
 #include <18f47j53.h>
 #device ADC=12
+#include "main.h"
 #include "hardware.h"
 #include "outputs.h"
-#include "main.h"
 
 extern bool Delestage_enable;
-extern unsigned long l_ADC1, l_ADC2;
+extern unsigned int16 l_ADC1_max, l_ADC1_min, l_ADC2_max, l_ADC2_min;
+
+unsigned int16 l_ADC1_max_acc=0, l_ADC2_max_acc=0, l_ADC1_min_acc=0, l_ADC2_min_acc=0;
 
 bool flagValidFrame = false;
 char FrameTeleinfo[SIZE_TELEINFO] = {0};
 char FrameTeleinfoStored[SIZE_TELEINFO] = {0};
 char FrameIndex = 0;
 char FrameIndexStored = 0;
-unsigned long l_ADC1_MAX = 0, l_ADC2_MAX = 0;
-int8 iNbrADC = 0;
+int16 lNbrADC = 0;
 
 BYTE I2C_table_index, Registers_table[16] = {0};
 
@@ -39,77 +40,126 @@ void Init_hard()
     output_high(LED1);
     output_low(LED2);
 
-    setup_timer_0(T0_DIV_256 | T0_INTERNAL);
     setup_timer_1(T1_FOSC);
-    set_timer0(TIMER0_1SEC);
     set_timer1(TIMER1_100US);
 
-    setup_adc(ADC_CLOCK_INTERNAL);
-    setup_adc_ports(RELAIS1_ADC | RELAIS2_ADC);
+    setup_adc(ADC_CLOCK_DIV_64);
+    setup_adc_ports(sAN10 | sAN12);
+    set_adc_channel(RELAIS1_ADC);
 
     // setup_wd(WDT_ON);
     enable_interrupts(INT_RDA);
     enable_interrupts(INT_SSP);
-    enable_interrupts(INT_TIMER0);
-    disable_interrupts(INT_TIMER1);
+    enable_interrupts(INT_TIMER1);
     enable_interrupts(INT_AD);
     enable_interrupts(PERIPH);
     enable_interrupts(GLOBAL);
     
     input(ZCD);
+    input(CONTACT_IO);
+    input(ONE_WIRE);
     PORT_D_PULLUPS(true);
+    // PORT_A_PULLUPS(true);
     
     Init_outputs();
 }
 
-/*timer interrupt toutes les 1s -> 
-    lance timer interrupt toutes les 100us, reset valeur max -> 
-    lance adc
-interrupt adc -> read et stocke valeur max, compte 100 fois, si 100e fois, stock valeur max dans tableau i2c et desactive timer 100us, 
-*/
-#INT_TIMER0
-void timer0_int()
+void average_and_store(unsigned int16 ADCmax1, unsigned int16 ADCmax2, unsigned int16 ADCmin1, unsigned int16 ADCmin2)
 {
-    enable_interrupts(INT_TIMER1);
-    set_timer1(TIMER1_100US);
-    l_ADC1_MAX = 0;
-    l_ADC2_MAX = 0;
-    set_adc_channel(RELAIS1_ADC);
+    static int8 iNbr_acc = 0;
 
-    set_timer0(TIMER0_1SEC);
+    if(iNbr_acc < 16)
+    {
+        iNbr_acc ++;
+        l_ADC1_max_acc += ADCmax1;
+        l_ADC2_max_acc += ADCmax2;
+        l_ADC1_min_acc += ADCmin1;
+        l_ADC2_min_acc += ADCmin2;
+    }
+    else
+    {
+        l_ADC1_max = l_ADC1_max_acc>>4;
+        l_ADC1_min = l_ADC1_min_acc>>4;
+        l_ADC2_max = l_ADC2_max_acc>>4;
+        l_ADC2_min = l_ADC2_min_acc>>4;
+        
+        iNbr_acc = 0;
+        l_ADC1_max_acc = 0;
+        l_ADC2_max_acc = 0;
+        l_ADC1_min_acc = 0;
+        l_ADC2_min_acc = 0;
+    }
+}
+
+void max_min(int8 id, unsigned int16 val)
+{
+    static unsigned int16 ADCmax1 = 0, ADCmax2 = 0, ADCmin1 = 0xFFFF, ADCmin2 = 0xFFFF;
+    if(id == 1)
+    {
+        if(val > ADCmax1)
+        {
+            ADCmax1 = val;
+        }
+        if(val < ADCmin1)
+        {
+            ADCmin1 = val;
+        }
+    }
+    else if(id == 2)
+    {
+        if(val > ADCmax2)
+        {
+            ADCmax2 = val;
+        }
+        if(val < ADCmin2)
+        {
+            ADCmin2 = val;
+        }
+    }
+    else
+    {
+        average_and_store(ADCmax1, ADCmax2, ADCmin1, ADCmin2);
+        ADCmax1 = 0;
+        ADCmax2 = 0;
+        ADCmin1 = 0xFFFF;
+        ADCmin2 = 0xFFFF;
+    }
 }
 
 #INT_TIMER1
 void timer1_int()
 {
-    read_adc(ADC_START_ONLY);
     set_timer1(TIMER1_100US);
+    read_adc(ADC_START_ONLY);
 }
 
 #INT_AD
 void adc_int()
 {
-    unsigned long val = read_adc(ADC_READ_ONLY);
-    if(iNbrADC < 100)
+    unsigned int16 val = read_adc(ADC_READ_ONLY);
+    
+    // Read 200 times on ADC 1, interval is 100us, so we read an entire 50Hz period
+    if(lNbrADC < 200)
     {
-        iNbrADC++;
-        if(val > l_ADC1_MAX)
-            l_ADC1_MAX = val;
-    }
-    else if(iNbrADC < 200)
-    {
-        iNbrADC++;
-        set_adc_channel(RELAIS2_ADC);
-        if(val > l_ADC2_MAX)
-            l_ADC2_MAX = val;        
+        lNbrADC++;
+        max_min(1, val);
+
+        if(lNbrADC == 199)
+        { // last iteration for ADC1
+            set_adc_channel(RELAIS2_ADC);
+        }
     }
     else
     {
-        l_ADC1 = l_ADC1_MAX;
-        l_ADC2 = l_ADC2_MAX;
-
-        disable_interrupts(INT_TIMER1);
-        iNbrADC = 0;
+        lNbrADC++;
+        max_min(2, val);
+        
+        if(lNbrADC == 399) 
+        {
+            set_adc_channel(RELAIS1_ADC);
+            max_min(0,0);
+            lNbrADC = 0;
+        }
     }
 }
 

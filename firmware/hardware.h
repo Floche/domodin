@@ -19,11 +19,11 @@
 
 #define RELAIS1_ON  PIN_D6
 #define RELAIS1_OFF PIN_D7
-#define RELAIS1_ADC	sAN10
+#define RELAIS1_ADC	10
 
 #define RELAIS2_ON  PIN_D4
 #define RELAIS2_OFF PIN_D5
-#define RELAIS2_ADC	sAN12
+#define RELAIS2_ADC	12
 
 #define DELAIS_RELAIS_MS 30
 

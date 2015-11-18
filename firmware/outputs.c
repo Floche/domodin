@@ -7,7 +7,8 @@ extern char FrameTeleinfoStored[SIZE_TELEINFO];
 extern char FrameIndexStored;
 extern BYTE Registers_table[16];
 
-unsigned long l_ADC1 = 0, l_ADC2 = 0;
+unsigned long l_ADC1_max = 0, l_ADC2_max = 0;
+unsigned long l_ADC1_min = 0xFFFF, l_ADC2_min = 0xFFFF;
 bool Delestage_enable = true;
 t_Radiator Rads[6];
 
@@ -29,6 +30,10 @@ void Init_outputs()
     int i;
     for(i = 0; i < 16; i++)
         Registers_table[i] = 0;
+
+    Registers_table[8] = 0x80; //delestage enabled
+
+    Registers_table[15] = restart_cause();
 
     Update_outputs();
 }
@@ -61,9 +66,9 @@ void Radiator(t_Order Order, int8 id)
 void Detection_delestage()
 {
     // First check the Frame (size, crc...)
-    if(FrameTeleinfoStored[0] == 0x0A && FrameIndexStored > 2)
+    if(FrameTeleinfoStored[0] == 0x0A && FrameIndexStored > 5)
     {
-        int8 i;
+    /*    int8 i;
         int16 checksum = 0;
         // last is CR, -1 is CRC
         for(i=1; i < (FrameIndexStored-1); i++)
@@ -72,13 +77,12 @@ void Detection_delestage()
         }
         checksum &= 0x3F;
         checksum += 0x20;
-        if(FrameTeleinfoStored[FrameIndexStored-1] == checksum) // valid frame
+        if(FrameTeleinfoStored[FrameIndexStored-1] == checksum) // valid frame*/
         {
             if(FrameTeleinfoStored[1] == 'A' &&
                FrameTeleinfoStored[2] == 'D' &&
                FrameTeleinfoStored[3] == 'P' &&
-               FrameTeleinfoStored[4] == 'S' &&
-               FrameTeleinfoStored[5] == 0x20)
+               FrameTeleinfoStored[4] == 'S')
             {
                 Registers_table[0] = 0;
                 Registers_table[1] = 0;
@@ -112,7 +116,7 @@ void Detection_delestage()
 void Update_outputs()
 {
     bool bRelai_1 = false, bRelai_2 = false;
-    int8 i = 0;
+    int8 i = 0, j = 0;
     
     for(i = 0; i < 6; i++)
     {
@@ -125,10 +129,10 @@ void Update_outputs()
     Delestage_enable = Registers_table[8] & 0x80 ? true : false;
     // ordre de delestage = Registers_table[8] & 0x03;
 
-    Registers_table[9] = l_ADC1 & 0xFF;
-    Registers_table[10] = l_ADC1 >> 8;
-    Registers_table[11] = l_ADC2 & 0xFF;
-    Registers_table[12] = l_ADC2 >> 8;
+    Registers_table[9] = l_ADC1_max & 0xFF;
+    Registers_table[10] = l_ADC1_max >> 8;
+    Registers_table[11] = l_ADC2_max & 0xFF;
+    Registers_table[12] = l_ADC2_max >> 8;
 
     if((Registers_table[13]&0x0F) == 0)
         output_low(LED1);
@@ -143,6 +147,17 @@ void Update_outputs()
         output_high(LED2);
     else
         output_toggle(LED2);
+
+    Registers_table[14] = 0;
+
+    if(input(ONE_WIRE))
+        Registers_table[14] |= 0x02;
+
+    for(i=0; i<10; i++)
+        j += input(CONTACT_IO);
+
+    if(j)
+        Registers_table[14] |= 0x01;
 }
 
 // Update the relais state : because they are bistable, we need to check if the desired state changed before changing the output
